@@ -1,0 +1,683 @@
+<html>
+    <center><head><h1>library Management System</h1></center>
+        <hr>
+    </head>
+     <body bgcolor="9292b8">
+        <font color="Black" size="10">
+        <center><font color="black"></font><i>Pasig Catholic College Book Shelves</i></font></center>
+
+        <center><img src="/Users/apple/Downloads/images.jpeg" alt="Library Logo" width="300" height=300"</center><br></br>
+       <center <font color="black"><i>a room in a private house where books are kept.<br></br></i></font>
+        <font color="black"><i>a collection of sources of information and similar resources, made accessible to a defined community for reference or borrowing.<br></br></i></font></center>
+          <form action="" method="">
+        <center><p><b>All books must put where it belongs</p></center>
+
+    
+    <ul>
+        <a href="Filipina Books.html"><li>Filipina Books</li></a>
+         <a href="Foreign Books.html"><li>Foreign Books</li></a>
+         <a href="encyclopaedia.html"><li>Encyclopedia Books</li></a>
+         
+        
+    </ul>
+    </p>
+         </script>  
+    </body>
+</html>
+
+
+
+<html>
+    <head>
+        <meta charset="utf-8"/>
+        <title>Encyclopaedia</title>
+    </head>
+     <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background-color: #9292b8;
+      color: #f8f7f7;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin-top: 10px;
+    }
+    th, td {
+      border: 1px solid #9292b8;
+      padding: 8px;
+      text-align: left;
+      background-color: white;
+      color: black;
+    }
+    th {
+      background-color: #6666d6;
+      color: white;
+    }
+    .summary {
+      margin-top: 20px;
+      font-weight: bold;
+    }
+  </style>
+    <center><body>
+        <hr><h1><i>Encyclopaedia<i></h1><hr>
+        <h2>- - - - - - - - - - Book Record - - - - - - - - - -</h2>
+        <section>
+        <form id="recordForm">
+            <b><label>ID: </label>
+            <input type="text" id="idInput" placeholder="Enter ID:"><br><br>
+
+            <b><label>Name:<br>
+            <input type="text" id="nameInput" required></label><br></br>
+
+            <b><label>Course:<br/>
+                <input type="text" id="courseInput" required/></label><br></br>
+
+            <b><label>Barcode:<br>
+                <input type="text" id="barcodeInput" required/></label><br></br>
+
+            <b><label>Date barrowed:<br>
+                <input type="text" id="date_BarrowedInput" required/></label><br></br>
+
+            <b><label>Date return:<br>
+                <input type="text" id="date_ReturnInput" required/></label><br></br>
+
+            <b><label>Contact Number:<br>
+                <input type="text" id="contact_numberInput" min="15" required/></label><br></br>
+
+            <button type="button" onclick="saveRecord()">Save</button>
+        </form>
+
+        
+        <h2>Saved Records</h2>
+        <table border="1" id="recordsTable"> 
+            <tr><th>ID</th><th>Name</th><th>Course</th><th>Barcode</th><th>date Barrowed</th><th>date Return</th><th>contact Number</th></tr> 
+        </table>
+
+        </section>
+        <script>
+           
+            const DB_KEY = 'students_db_v1';
+ 
+           
+            const seedData = [
+                {id: '24-0611', name: 'Famorca, Abigail', course: 'BSIT', barcode: 'SGS2014', date_Barrowed: '10-19-2025', date_Return: '10-22-2025', contact_number: '09975832931'},
+                {id: '24-0622', name: 'Mendoza, Camilla', course: 'BSA', barcode: 'SGS2015', date_Barrowed: '10-20-2025', date_Return: '10-23-25', contact_number: '09949855193'},
+                {id: '24-0603', name: 'Mandigma, Andre', course: 'BSP', barcode: 'SGS2020', date_Barrowed: '10-22-2025', date_Return: '10-25-25', contact_number: '09908871114'},
+            ];
+                   
+     
+        let db = [];
+ 
+       
+        function loadDB() {
+            const raw =localStorage.getItem(DB_KEY);
+            db = [...seedData];
+            saveDB();
+        }
+        
+        function saveDB(){
+            localStorage.setItem(DB_KEY,JSON.stringify(db));
+        }
+      
+        loadDB();
+        displayRecords();
+           
+      
+        function displayRecords(){
+            const table = document.getElementById('recordsTable');
+            table.innerHTML='<tr><th>ID</th><th>Name</th><th>course</th><th>barcode</th><th>Date Barrowed</th><th>Date Return</th><th>Contact Number</th><th>Action</th></tr>';
+            db.forEach(r=> {
+                table.innerHTML += 
+                `<tr>
+                <td>${r.id}</td>
+                <td>${r.name}</td>
+                <td>${r.course}</td>
+                <td>${r.barcode}</td>
+                <td>${r.date_Barrowed}</td>
+                <td>${r.date_Return}</td>
+                <td>${r.contact_number}</td>
+
+
+                <td>
+                    <button type="button" onclick="deleteRecord('${r.id}')">Delete</button>    
+                </td>
+                </tr>
+                `;
+                   
+            });
+          
+        }
+
+        
+         function showArray(){
+         document.getElementById("output").innerHTML= "<p>Current Array:" + JSON.stringify(fruits)+"<p>";}
+
+         function saveRecord(){
+            //Read Inputs
+            const id =document.getElementById('idInput').value;
+            const name = document.getElementById('nameInput').value;
+            const course = document.getElementById('courseInput').value;
+            const barcode =document.getElementById('barcodeInput').value;
+            const date_Barrowed=document.getElementById('date_BarrowedInput').value;
+            const date_Return =document.getElementById('date_ReturnInput').value;
+            const contact_number =document.getElementById('contact_numberInput').value;
+            
+            const newRecord = {id,name,course,barcode,date_Barrowed,date_Return,contact_number};
+            
+            db.push(newRecord);
+            
+            saveDB();
+            console.log('Record Saved: ',newRecord);
+            
+ 
+            document.getElementById('recordForm').reset();
+            displayRecords();
+        }
+         function deleteRecord(id){
+            const ok = confirm(`Delete record with ID "${id}"?`);
+            if (!ok) return;
+
+            const idx=db.findIndex(r=>r.id === id);
+            if (idx === -1){
+                alert('Record not found.');
+            }
+
+            db.splice(idx, 1);
+            saveDB();
+            displayRecords();
+        }
+        </script>
+         <body>
+        
+    <ul>
+        <a href="Filipina bar.html"><li>Barcode -- Book Titles -- </li></a>
+        
+    </ul>
+    </p>
+        </body>
+    </body>
+</html>
+ 
+
+
+ <html>
+    <head>
+        <meta charset="utf-8"/>
+        <title>Filipina</title>
+    </head>
+    <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background-color: #9292b8;
+      color: #f8f7f7;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin-top: 10px;
+    }
+    th, td {
+      border: 1px solid #9292b8;
+      padding: 8px;
+      text-align: left;
+      background-color: white;
+      color: black;
+    }
+    th {
+      background-color: #6666d6;
+      color: white;
+    }
+    .summary {
+      margin-top: 20px;
+      font-weight: bold;
+    }
+  </style>
+   <center><body>
+        <hr><h1><i>Filipina<i></h1><hr>
+        <h2>- - - - - - - - - - Book Record - - - - - - - - - -</h2>
+        <section>
+        <form id="recordForm">
+            <b><label>ID: </label>
+            <input type="text" id="idInput" placeholder="Enter ID:"><br><br>
+
+            <b><label>Name:<br>
+            <input type="text" id="nameInput" required></label><br></br>
+
+            <b><label>Course:<br/>
+                <input type="text" id="courseInput" required/></label><br></br>
+
+            <b><label>Barcode:<br>
+                <input type="text" id="barcodeInput" required/></label><br></br>
+
+            <b><label>Date barrowed:<br>
+                <input type="text" id="date_BarrowedInput" required/></label><br></br>
+
+            <b><label>Date return:<br>
+                <input type="text" id="date_ReturnInput" required/></label><br></br>
+
+            <b><label>Contact Number:<br>
+                <input type="text" id="contact_numberInput" min="15" required/></label><br></br>
+
+            <button type="button" onclick="saveRecord()">Save</button>
+        </form>
+
+        
+        <h2>Saved Records</h2>
+        <table border="1" id="recordsTable"> 
+            <tr><th>ID</th><th>Name</th><th>Course</th><th>Barcode</th><th>date Barrowed</th><th>date Return</th><th>contact Number</th></tr> 
+        </table>
+
+        </section>
+        <script>
+            
+            const DB_KEY = 'students_db_v1';
+ 
+           
+            const seedData = [
+                {id: '24-0609', name: 'Abayon, Via', course: 'BSIT', barcode: 'SGS1546', date_Barrowed: '10-19-2025', date_Return: '10-22-2025', contact_number: '09947073691' },
+                {id: '24-1234', name: 'Morales, Michael', course: 'BSA', barcode: 'SGS953', date_Barrowed: '10-20-2025', date_Return: '10-23-25', contact_number:'0993593990'},
+                {id: '24-0234', name: 'Rico, KeithJohn', course: 'BSP', barcode: 'SGS485', date_Barrowed: '10-22-2025', date_Return: '10-25-25', contact_number: '09239981457'},
+            ];
+                   
+       
+        let db = [];
+ 
+        
+        function loadDB() {
+            const raw =localStorage.getItem(DB_KEY);
+            db = [...seedData];
+            saveDB();
+        }
+     
+        function saveDB(){
+            localStorage.setItem(DB_KEY,JSON.stringify(db));
+        }
+        
+        loadDB();
+        displayRecords();
+           
+       
+        function displayRecords(){
+            const table = document.getElementById('recordsTable');
+            table.innerHTML='<tr><th>ID</th><th>Name</th><th>course</th><th>barcode</th><th>Date Barrowed</th><th>Date Return</th><th>Contact Number</th><th>Action</th></tr>';
+            db.forEach(r=> {
+                table.innerHTML += 
+                `<tr>
+                <td>${r.id}</td>
+                <td>${r.name}</td>
+                <td>${r.course}</td>
+                <td>${r.barcode}</td>
+                <td>${r.date_Barrowed}</td>
+                <td>${r.date_Return}</td>
+                <td>${r.contact_number}</td>
+
+
+                <td>
+                    <button type="button" onclick="deleteRecord('${r.id}')">Delete</button>    
+                </td>
+                </tr>
+                `;
+                   
+            });
+          
+        }
+
+        
+         function showArray(){
+         document.getElementById("output").innerHTML= "<p>Current Array:" + JSON.stringify(fruits)+"<p>";}
+
+         function saveRecord(){
+            //Read Inputs
+            const id =document.getElementById('idInput').value;
+            const name = document.getElementById('nameInput').value;
+            const course = document.getElementById('courseInput').value;
+            const barcode =document.getElementById('barcodeInput').value;
+            const date_Barrowed=document.getElementById('date_BarrowedInput').value;
+            const date_Return =document.getElementById('date_ReturnInput').value;
+            const contact_number =document.getElementById('contact_numberInput').value;
+            
+            const newRecord = {id,name,course,barcode,date_Barrowed,date_Return,contact_number};
+            
+            db.push(newRecord);
+            
+            saveDB();
+            console.log('Record Saved: ',newRecord);
+            
+ 
+            document.getElementById('recordForm').reset();
+            displayRecords();
+        }
+         function deleteRecord(id){
+            const ok = confirm(`Delete record with ID "${id}"?`);
+            if (!ok) return;
+
+            const idx=db.findIndex(r=>r.id === id);
+            if (idx === -1){
+                alert('Record not found.');
+            }
+
+            db.splice(idx, 1);
+            saveDB();
+            displayRecords();
+        }
+        </script>
+         <body>
+            
+    <ul>
+        <a href="Filipiniana bar.html"><li>Barcode -- Book Titles -- </li></a>
+        
+    </ul>
+    </p>
+        </body>
+    </body>
+</html>
+ 
+
+ <html>
+    <head>
+        <meta charset="utf-8"/>
+        <title>Encyclopaedia</title>
+    </head>
+    <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background-color: #9292b8;
+      color: #f8f7f7;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin-top: 10px;
+    }
+    th, td {
+      border: 1px solid #9292b8;
+      padding: 8px;
+      text-align: left;
+      background-color: white;
+      color: black;
+    }
+    th {
+      background-color: #6666d6;
+      color: white;
+    }
+    .summary {
+      margin-top: 20px;
+      font-weight: bold;
+    }
+  </style>
+    <body>
+        <center><hr><h1><i>Foreign<i></h1><hr></center>
+        <center><h2>- - - - - - - - - - Book Record - - - - - - - - - -</h2>
+        <section>
+        <form id="recordForm">
+            <b><label>ID: </label>
+            <input type="text" id="idInput" placeholder="Enter ID:"><br><br>
+
+            <b><label>Name:<br>
+            <input type="text" id="nameInput" required></label><br></br>
+
+            <b><label>Course:<br/>
+                <input type="text" id="courseInput" required/></label><br></br>
+
+            <b><label>Barcode:<br>
+                <input type="text" id="barcodeInput" required/></label><br></br>
+
+            <b><label>Date barrowed:<br>
+                <input type="text" id="date_BarrowedInput" required/></label><br></br>
+
+            <b><label>Date return:<br>
+                <input type="text" id="date_ReturnInput" required/></label><br></br>
+
+            <b><label>Contact Number:<br>
+                <input type="text" id="contact_numberInput" min="15" required/></label><br></br>
+
+            <button type="button" onclick="saveRecord()">Save</button>
+        </form>
+
+        
+        <h2>Saved Records</h2>
+        <table border="1" id="recordsTable"> 
+            <tr><th>ID</th><th>Name</th><th>Course</th><th>Barcode</th><th>date Barrowed</th><th>date Return</th><th>contact Number</th></tr> 
+        </table>
+
+        </section>
+        <script>
+            const DB_KEY = 'students_db_v1';
+ 
+            const seedData = [
+                {id: '24-1233', name: 'Simballa, Andrea', course: 'BSIT', barcode: 'SGS1224', date_Barrowed: '10-19-2025', date_Return: '10-22-2025', contact_number: '09947073691' },
+                {id: '24-1322', name: 'Samantha, Nicole', course: 'BSA', barcode: 'SGS1681', date_Barrowed: '10-20-2025', date_Return: '10-23-25', contact_number:'0993593990'},
+                {id: '24-0607', name: 'Rio, Dafhnee', course: 'BSP', barcode: 'SGS1208', date_Barrowed: '10-22-2025', date_Return: '10-25-25', contact_number: '09239981457'},
+            ];
+                   
+        let db = [];
+ 
+        function loadDB() {
+            const raw =localStorage.getItem(DB_KEY);
+            db = [...seedData];
+            saveDB();
+        }
+        function saveDB(){
+            localStorage.setItem(DB_KEY,JSON.stringify(db));
+        }
+        
+        loadDB();
+        displayRecords();
+           
+        
+        function displayRecords(){
+            const table = document.getElementById('recordsTable');
+            table.innerHTML='<tr><th>ID</th><th>Name</th><th>course</th><th>barcode</th><th>Date Barrowed</th><th>Date Return</th><th>Contact Number</th><th>Action</th></tr>';
+            db.forEach(r=> {
+                table.innerHTML += 
+                `<tr>
+                <td>${r.id}</td>
+                <td>${r.name}</td>
+                <td>${r.course}</td>
+                <td>${r.barcode}</td>
+                <td>${r.date_Barrowed}</td>
+                <td>${r.date_Return}</td>
+                <td>${r.contact_number}</td>
+
+
+                <td>
+                    <button type="button" onclick="deleteRecord('${r.id}')">Delete</button>    
+                </td>
+                </tr>
+                `;
+                   
+            });
+          
+        }
+
+        
+         function showArray(){
+         document.getElementById("output").innerHTML= "<p>Current Array:" + JSON.stringify(fruits)+"<p>";}
+
+         function saveRecord(){
+           
+            const id =document.getElementById('idInput').value;
+            const name = document.getElementById('nameInput').value;
+            const course = document.getElementById('courseInput').value;
+            const barcode =document.getElementById('barcodeInput').value;
+            const date_Barrowed=document.getElementById('date_BarrowedInput').value;
+            const date_Return =document.getElementById('date_ReturnInput').value;
+            const contact_number =document.getElementById('contact_numberInput').value;
+           
+            const newRecord = {id,name,course,barcode,date_Barrowed,date_Return,contact_number};
+        
+            db.push(newRecord);
+           
+            saveDB();
+            console.log('Record Saved: ',newRecord);
+           
+ 
+            document.getElementById('recordForm').reset();
+            displayRecords();
+        }
+         function deleteRecord(id){
+            const ok = confirm(`Delete record with ID "${id}"?`);
+            if (!ok) return;
+
+            const idx=db.findIndex(r=>r.id === id);
+            if (idx === -1){
+                alert('Record not found.');
+            }
+
+            db.splice(idx, 1);
+            saveDB();
+            displayRecords();
+        }
+
+        
+        </script>
+        <body>
+        
+    <ul>
+        <a href="bar.html"><li>Barcode -- Book Titles -- </li></a>
+        
+    </ul>
+    </p>
+        </body>
+    </body>
+</html>
+ 
+
+  </head>
+<body>
+    <center><h1>- - - Book Barcode - - -</h1>
+    <input type="text" id="barcode" placeholder="e.g., ABC1234" />
+    <button onclick="lookupBook()">Lookup Book</button>
+    <p id="result"></p>
+ <script>
+        
+        function lookupBook() {
+            const barcode = document.getElementById('barcode').value.trim();
+            const result = document.getElementById('result');
+            
+            if (!barcode) {
+                result.innerText = "Please enter a barcode.";
+            } else if (barcode === "SGS2015") {
+                result.innerText = "Negotiating Globalization in Asia";
+            } else if (barcode === "SGS2020") {
+                result.innerText = "Book Title: Agenda for hope: ideas on building a nation";
+            } else if (barcode === "SGS2016") {
+                result.innerText = "Book Title: Religious festivals in contemporary southeast asia";
+            } else if (barcode === "SGS2018") {
+                result.innerText = "Book Title: The Philippines is in the heart";
+            }else if (barcode === "SGS2019") {
+                result.innerText = "Book title: State and Society in the philippines ";
+            }else if (barcode === "SGS1711") {
+                result.innerText = "Book Title: Research methods and techniques	";
+            }else if (barcode === "SGS352") {
+               result.innerText = "Book Title: Methods and techniques of research";
+            }else if (barcode === "SGS2034") {
+                result.innerText = "Book Title: Magandang Gabi Bayan: Nation, journalism discourse and television news in the philippine";
+            }else if (barcode === "SGS2017") {
+                result.innerText = "Book Title: Reading Horacio De la costa, SJ: views from the 21st century";
+            }else if (barcode === "SGS2022") {
+                result.innerText = "Book Title: The second plenary council of the philippines: Quo Vadis";
+            }else{
+                result.innerText = "Book not found in our database.";
+            }
+        }
+           
+        
+
+    </script>
+    </body>
+</html>
+
+
+ </head>
+<body>
+    <center><h1>- - - Book Barcode - - -</h1>
+    <input type="text" id="barcode" placeholder="e.g., ABC1234" />
+    <button onclick="lookupBook()">Lookup Book</button>
+    <p id="result"></p>
+    
+ <script>
+        function lookupBook() {
+            const barcode = document.getElementById('barcode').value.trim();
+            const result = document.getElementById('result');
+            
+            if (!barcode) {
+                result.innerText = "Please enter a barcode.";
+            } else if (barcode === "F959") {
+                result.innerText = "Book Title: Philippine social History";
+            } else if (barcode === "T 823") {
+                result.innerText = "Book Title: Mga Prinsipyo Sa Ekonomiks";
+            } else if (barcode === "G589") {
+                result.innerText = "Book Title: National Internal Revenue Code";
+            } else if (barcode === "C766") {
+                result.innerText = "Book Title: Soliongco Today";
+            }else if (barcode === "S274") {
+                result.innerText = "Book Title: World Literature";
+            }else if (barcode === "SGS2116") {
+                result.innerText = "Book Title: Principles of Economics	";
+            }else if (barcode === "M673") {
+               result.innerText = "Book Title: Wage And Salary Administration";
+            }else if (barcode === "A384") {
+                result.innerText = "Book Title: Labor Law HandBook";
+            }else if (barcode === "F178") {
+                result.innerText = "Book Title: International Economics";
+            }else if (barcode === "V713") {
+                result.innerText = "Book Title: Economic Geography of the Philippines";
+            }else{
+                result.innerText = "Book not found in our database.";
+            }
+        }
+           
+
+    </script></center>
+</body>
+</html>
+
+</head>
+<body>
+    <center><h1>- - - Book Barcode - - -</h1>
+    <input type="text" id="barcode" placeholder="e.g., ABC1234" />
+    <button onclick="lookupBook()">Lookup Book</button>
+    <p id="result"></p>
+    
+    
+    <script>
+        function lookupBook() {
+            const barcode = document.getElementById('barcode').value.trim();
+            const result = document.getElementById('result');
+            
+            if (!barcode) {
+                result.innerText = "Please enter a barcode.";
+            } else if (barcode === "SGS1634") {
+                result.innerText = "Constructing research questions: doing interesting questions	";
+            } else if (barcode === "SGS011955") {
+                result.innerText = "Book Title: Fundamentals of research";
+            } else if (barcode === "SGS1017") {
+                result.innerText = "Book Title: Counseling and educational research:  evaluation and application";
+            } else if (barcode === "SGS1231") {
+                result.innerText = "Book Title: The Foundations of Research";
+            }else if (barcode === "SGS5") {
+                result.innerText = "Reflexive methodology: new vistas for qualitative research";
+            }else if (barcode === "SGS2116") {
+                result.innerText = "Developing research writing:a handbook for supervisors and advisors	";
+            }else if (barcode === "SGS2104") {
+               result.innerText = "The Sage handbook of qualitative research";
+            }else if (barcode === "SGS1546") {
+                result.innerText = "Research methods: the key concepts";
+            }else if (barcode === "SGS953") {
+                result.innerText = "Research methodology: techniques and trends";
+            }else if (barcode === "SGS485") {
+                result.innerText = "Qualitative research practice";
+            }else{
+                result.innerText = "Book not found in our database.";
+            }
+        }
+        
+
+    </script></center>
+</body>
+</html>
