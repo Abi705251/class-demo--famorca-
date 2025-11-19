@@ -1,0 +1,82 @@
+<html>
+<head>
+
+<body>
+    <center><title>- - - Book Barcode - - -</title>
+    
+   <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background-color: #b69370;
+      color: #f8f7f7;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin-top: 10px;
+    }
+    th, td {
+      border: 1px solid #896d49;
+      padding: 8px;
+      text-align: left;
+      background-color: white;
+      color: black;
+    }
+    th {
+      background-color: #6a5539;
+      color: white;
+    }
+    .summary {
+      margin-top: 20px;
+      font-weight: bold;
+    }
+  </style>
+  </head>
+
+  <body>
+    <h1>Book Barcode</h1>
+    <input type="text" id="barcode" placeholder="e.g., SGS1017" />
+  <button onclick="lookupBook()">Search</button>
+  <p id="result"></p>
+  
+ <script>
+        
+        function lookupBook() {
+            const barcode = document.getElementById('barcode').value.trim();
+            const result = document.getElementById('result');
+            
+            if (!barcode) {
+                result.innerText = "Please enter a barcode.";
+            } else if (barcode === "SGS2015") {
+                result.innerText = "Negotiating Globalization in Asia";
+            } else if (barcode === "SGS2020") {
+                result.innerText = "Book Title: Agenda for hope: ideas on building a nation";
+            } else if (barcode === "SGS2016") {
+                result.innerText = "Book Title: Religious festivals in contemporary southeast asia";
+            } else if (barcode === "SGS2018") {
+                result.innerText = "Book Title: The Philippines is in the heart";
+            }else if (barcode === "SGS2019") {
+                result.innerText = "Book title: State and Society in the philippines ";
+            }else if (barcode === "SGS1711") {
+                result.innerText = "Book Title: Research methods and techniques	";
+            }else if (barcode === "SGS352") {
+               result.innerText = "Book Title: Methods and techniques of research";
+            }else if (barcode === "SGS2034") {
+                result.innerText = "Book Title: Magandang Gabi Bayan: Nation, journalism discourse and television news in the philippine";
+            }else if (barcode === "SGS2017") {
+                result.innerText = "Book Title: Reading Horacio De la costa, SJ: views from the 21st century";
+            }else if (barcode === "SGS2022") {
+                result.innerText = "Book Title: The second plenary council of the philippines: Quo Vadis";
+            }else{
+                result.innerText = "Book not found in our database.";
+            }
+        }
+           
+        
+
+    </script>
+
+    <center> <a href="Filipina Books.html"><button type="button">Previous</button></a></center>
+    </body>
+</html>
