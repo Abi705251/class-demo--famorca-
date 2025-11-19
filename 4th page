@@ -1,0 +1,192 @@
+<html>
+    <head>
+        <meta charset="utf-8"/>
+        <title>Foreign</title>
+    </head>
+   <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background-color: #b69370;
+      color: #f8f7f7;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin-top: 10px;
+    }
+    th, td {
+      border: 1px solid #896d49;
+      padding: 8px;
+      text-align: left;
+      background-color: white;
+      color: black;
+    }
+    th {
+      background-color: #6a5539;
+      color: white;
+    }
+    .summary {
+      margin-top: 20px;
+      font-weight: bold;
+    }
+  </style>
+
+   <center><body>
+        <hr><h1><i>Foreign Books<i></h1><hr>
+        <h2>Book Record</h2>
+
+        <section>
+           <form id="recordForm">
+        <label><b>ID:</b></label><br>
+        <input type="text" id="idInput" placeholder="Enter ID" maxlength="7" minlength="7" required><br><br>
+
+        <label><b>Name:</b></label><br>
+        <input type="text" id="nameInput" required><br><br>
+
+        <label><b>Course:</b></label><br>
+        <input type="text" id="courseInput" required><br><br>
+
+        <label><b>Barcode:</b></label><br>
+        <input type="text" id="barcodeInput" required><br><br>
+
+        <label><b>Date Borrowed:</b></label><br>
+        <input type="text" id="date_BarrowedInput" required><br><br>
+
+        <label><b>Date Return:</b></label><br>
+        <input type="text" id="date_ReturnInput" required><br><br>
+
+        <label><b>Contact Number:</b></label><br>
+        <input type="text" id="contact_numberInput" maxlength="11" minlength="11" required><br><br>
+
+        <button type="button" onclick="saveRecord()">Save</button>
+    </form>
+
+        
+        <h2>Saved Records</h2>
+        <table border="1" id="recordsTable"> 
+            <tr><th>ID</th><th>Name</th><th>Course</th><th>Barcode</th><th>Date Borrowed</th><th>Date Return</th><th>Contact Number</th><th>Action</th></tr> 
+        </table>
+
+        </section>
+
+<script>
+
+const DB_KEY = 'students_db_v1';
+
+const seedData = [
+    {id: '24-0609', name: 'Abayon, Via', course: 'BSIT', barcode: 'SGS1546', date_Barrowed: '10-19-2025', date_Return: '10-22-2025', contact_number: '09947073691' },
+    {id: '24-1234', name: 'Morales, Michael', course: 'BSA', barcode: 'SGS953', date_Barrowed: '10-20-2025', date_Return: '10-23-25', contact_number:'0993593990'},
+    {id: '24-0234', name: 'Rico, KeithJohn', course: 'BSP', barcode: 'SGS485', date_Barrowed: '10-22-2025', date_Return: '10-25-25', contact_number: '09239981457'},
+];
+
+let db = [];
+let editIndex = null;  
+
+function loadDB() {
+    db = [...seedData];
+    saveDB();
+}
+
+function saveDB(){
+    localStorage.setItem(DB_KEY, JSON.stringify(db));
+}
+
+loadDB();
+displayRecords();
+
+function displayRecords(){
+    const table = document.getElementById('recordsTable');
+    table.innerHTML='<tr><th>ID</th><th>Name</th><th>Course</th><th>Barcode</th><th>Date Borrowed</th><th>Date Return</th><th>Contact Number</th><th>Action</th></tr>';
+
+    db.forEach((r, index) => {
+        table.innerHTML += 
+        `<tr>
+            <td>${r.id}</td>
+            <td>${r.name}</td>
+            <td>${r.course}</td>
+            <td>${r.barcode}</td>
+            <td>${r.date_Barrowed}</td>
+            <td>${r.date_Return}</td>
+            <td>${r.contact_number}</td>
+
+            <td>
+                <button type="button" onclick="editRecord(${index})">Edit</button><br>
+                <button type="button" onclick="deleteRecord('${r.id}')">Delete</button>   
+            </td>
+        </tr>`;
+    });
+}
+
+function saveRecord(){
+    const id =document.getElementById('idInput').value;
+    const name = document.getElementById('nameInput').value;
+    const course = document.getElementById('courseInput').value;
+    const barcode =document.getElementById('barcodeInput').value;
+    const date_Barrowed=document.getElementById('date_BarrowedInput').value;
+    const date_Return =document.getElementById('date_ReturnInput').value;
+    const contact_number =document.getElementById('contact_numberInput').value;
+
+    if (!id) return alert("⚠ Please enter an ID.");
+    if (!name) return alert("⚠ Please enter a Name.");
+    if (!course) return alert("⚠ Please enter a Course.");
+    if (!barcode) return alert("⚠ Please enter a Barcode.");
+    if (!date_Barrowed) return alert("⚠ Please enter a Date Borrowed.");
+    if (!date_Return) return alert("⚠ Please enter a Date Return.");
+    if (!/^09\d{9}$/.test(contact_number)) 
+        return alert("⚠ Invalid phone number. Format: 09123456789");
+
+    const newRecord = {id,name,course,barcode,date_Barrowed,date_Return,contact_number};
+
+
+    if (editIndex !== null) {
+        db[editIndex] = newRecord;
+        editIndex = null;
+    } else {
+        db.push(newRecord);
+    }
+
+    saveDB();
+    document.getElementById('recordForm').reset();
+    displayRecords();
+}
+
+
+function editRecord(idx){
+    const record = db[idx];  
+
+    editIndex = idx;  
+
+    document.getElementById('idInput').value = record.id;
+    document.getElementById('nameInput').value = record.name;
+    document.getElementById('courseInput').value = record.course;
+    document.getElementById('barcodeInput').value = record.barcode;
+    document.getElementById('date_BarrowedInput').value = record.date_Barrowed;
+    document.getElementById('date_ReturnInput').value = record.date_Return;
+    document.getElementById('contact_numberInput').value = record.contact_number;
+}
+
+function deleteRecord(id){
+    const ok = confirm(`Delete record with ID "${id}"?`);
+    if (!ok) return;
+
+    const idx = db.findIndex(r => r.id === id);
+    if (idx === -1){
+        alert('Record not found.');
+    }
+
+    db.splice(idx, 1);
+    saveDB();
+    displayRecords();
+}
+
+loadDB();
+
+</script>
+
+<body>
+<a href="Filipina bar.html"><button type="button">Next</button></a>
+</body>
+
+</body>
+</html>
