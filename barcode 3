@@ -1,0 +1,80 @@
+<html>
+<head>
+
+<body>
+    <center><title>Book Barcode</title>
+    
+   <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background-color: #b69370;
+      color: #f8f7f7;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin-top: 10px;
+    }
+    th, td {
+      border: 1px solid #896d49;
+      padding: 8px;
+      text-align: left;
+      background-color: white;
+      color: black;
+    }
+    th {
+      background-color: #6a5539;
+      color: white;
+    }
+    .summary {
+      margin-top: 20px;
+      font-weight: bold;
+    }
+  </style>
+  </head>
+
+  <body>
+    <h1>Book Barcode</h1>
+    <input type="text" id="barcode" placeholder="e.g., SGS1017" />
+  <button onclick="lookupBook()">Search</button>
+  <p id="result"></p>
+  
+    <script>
+        function lookupBook() {
+            const barcode = document.getElementById('barcode').value.trim();
+            const result = document.getElementById('result');
+            
+            if (!barcode) {
+                result.innerText = "Please enter a barcode.";
+            } else if (barcode === "SGS1634") {
+                result.innerText = "Constructing research questions: doing interesting questions	";
+            } else if (barcode === "SGS011955") {
+                result.innerText = "Book Title: Fundamentals of research";
+            } else if (barcode === "SGS1017") {
+                result.innerText = "Book Title: Counseling and educational research:  evaluation and application";
+            } else if (barcode === "SGS1231") {
+                result.innerText = "Book Title: The Foundations of Research";
+            }else if (barcode === "SGS5") {
+                result.innerText = "Reflexive methodology: new vistas for qualitative research";
+            }else if (barcode === "SGS2116") {
+                result.innerText = "Developing research writing:a handbook for supervisors and advisors	";
+            }else if (barcode === "SGS2104") {
+               result.innerText = "The Sage handbook of qualitative research";
+            }else if (barcode === "SGS1546") {
+                result.innerText = "Research methods: the key concepts";
+            }else if (barcode === "SGS953") {
+                result.innerText = "Research methodology: techniques and trends";
+            }else if (barcode === "SGS485") {
+                result.innerText = "Qualitative research practice";
+            }else{
+                result.innerText = "Book not found in our database.";
+            }
+        }
+        
+
+    </script>
+
+    <center> <a href="Foreign Books.html"><button type="button">Previous</button></a></center>
+</body>
+</html>
