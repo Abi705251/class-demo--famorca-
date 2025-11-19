@@ -1,0 +1,80 @@
+<html>
+<head>
+
+<body>
+    <center><title>Book Barcode</title>
+    
+   <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background-color: #b69370;
+      color: #f8f7f7;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin-top: 10px;
+    }
+    th, td {
+      border: 1px solid #896d49;
+      padding: 8px;
+      text-align: left;
+      background-color: white;
+      color: black;
+    }
+    th {
+      background-color: #6a5539;
+      color: white;
+    }
+    .summary {
+      margin-top: 20px;
+      font-weight: bold;
+    }
+  </style>
+  </head>
+
+  <body>
+    <h1>Book Barcode</h1>
+    <input type="text" id="barcode" placeholder="e.g., SGS1017" />
+  <button onclick="lookupBook()">Search</button>
+  <p id="result"></p>
+    
+ <script>
+        function lookupBook() {
+            const barcode = document.getElementById('barcode').value.trim();
+            const result = document.getElementById('result');
+            
+            if (!barcode) {
+                result.innerText = "Please enter a barcode.";
+            } else if (barcode === "F959") {
+                result.innerText = "Book Title: Philippine social History";
+            } else if (barcode === "T 823") {
+                result.innerText = "Book Title: Mga Prinsipyo Sa Ekonomiks";
+            } else if (barcode === "G589") {
+                result.innerText = "Book Title: National Internal Revenue Code";
+            } else if (barcode === "C766") {
+                result.innerText = "Book Title: Soliongco Today";
+            }else if (barcode === "S274") {
+                result.innerText = "Book Title: World Literature";
+            }else if (barcode === "SGS2116") {
+                result.innerText = "Book Title: Principles of Economics	";
+            }else if (barcode === "M673") {
+               result.innerText = "Book Title: Wage And Salary Administration";
+            }else if (barcode === "A384") {
+                result.innerText = "Book Title: Labor Law HandBook";
+            }else if (barcode === "F178") {
+                result.innerText = "Book Title: International Economics";
+            }else if (barcode === "V713") {
+                result.innerText = "Book Title: Economic Geography of the Philippines";
+            }else{
+                result.innerText = "Book not found in our database.";
+            }
+        }
+         
+
+    </script></center>
+
+    <center> <a href="Filipina Books copy.html"><button type="button">Previous</button></a></center>
+</body>
+</html>
